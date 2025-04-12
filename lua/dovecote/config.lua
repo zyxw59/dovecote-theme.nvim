@@ -1,0 +1,3 @@
+---@class dovecote.config
+return {
+}
