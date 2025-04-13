@@ -9,6 +9,7 @@
 ---@field green string
 ---@field blue string
 ---@field purple string
+---@field neutral string
 
 local M = {}
 
@@ -21,10 +22,11 @@ local dark_focus = { "#1E0E25", "#37263F", "#52305A" }
 -- (0.9 0.05 60), (0.8 0.05 60), (0.7 0.05 60)
 local light_focus = { "#F9D8BE", "#D7B79E", "#B69880" }
 local base = {
-  red = "#CB564D",    -- (0.6 0.15 27)
-  orange = "#E18528", -- (0.7 0.15 60)
-  blue = "#4080D9",   -- (0.6 0.15 257)
-  purple = "#9E62C1", -- (0.6 0.15 312)
+  red = "#CB564D",      -- (0.6 0.15 27)
+  orange = "#E18528",   -- (0.7 0.15 60)
+  blue = "#4080D9",     -- (0.6 0.15 257)
+  purple = "#9E62C1",   -- (0.6 0.15 312)
+  neutral = "#6E5b77",  -- (0.5 0.05 315)
 };
 
 ---@type dovecote.palette

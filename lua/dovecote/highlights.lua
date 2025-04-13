@@ -29,8 +29,8 @@ local set_highlights_builtin = function(colors, config)
   vim.api.nvim_set_hl(0, "Pmenu", { bg = colors.bg_focus[3] })
   vim.api.nvim_set_hl(0, "PmenuThumb", { bg = colors.fg_focus[3] })
 
-  vim.api.nvim_set_hl(0, "Conceal", { fg = colors.bg_focus[3] })
-  vim.api.nvim_set_hl(0, "NonText", { fg = colors.bg_focus[3] })
+  vim.api.nvim_set_hl(0, "Conceal", { fg = colors.neutral })
+  vim.api.nvim_set_hl(0, "NonText", { fg = colors.neutral })
 
   vim.api.nvim_set_hl(0, "Search", { bg = colors.bg_focus[3] });
   vim.api.nvim_set_hl(0, "CurSearch", { reverse = true });
@@ -61,7 +61,7 @@ end
 
 --- Syntax highlight groups (:h group-name)
 local set_highlights_syntax = function(colors, config)
-  vim.api.nvim_set_hl(0, "Comment", { fg = colors.bg_focus[3], italic = true })
+  vim.api.nvim_set_hl(0, "Comment", { fg = colors.neutral, italic = true })
 
   vim.api.nvim_set_hl(0, "Constant", { fg = colors.purple })
   vim.api.nvim_set_hl(0, "String", { fg = colors.purple })
