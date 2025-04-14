@@ -22,7 +22,7 @@ M.load = function()
   end
   vim.g.colors_name = "dovecote"
 
-  local highlights = require("dovecote.highlights");
+  local highlights = require("dovecote.highlights")
   local palette = require("dovecote.palette")
   local colors = {}
   if vim.o.background == "dark" then
@@ -32,7 +32,7 @@ M.load = function()
   end
 
   local namespaces = require("dovecote.autoblur").setup(M.config)
-  highlights.set_highlights(colors, M.config, namespaces);
+  highlights.set_highlights(colors, M.config, namespaces)
 end
 
-return M;
+return M

@@ -95,23 +95,23 @@ local set_highlights_builtin = function(colors, config, namespaces)
   vim.api.nvim_set_hl(0, "NonText", { fg = colors.neutral })
 
   set_hl_maybe_blur(colors, config, namespaces, "Search", { bg = 3 })
-  vim.api.nvim_set_hl(0, "CurSearch", { reverse = true });
-  vim.api.nvim_set_hl(0, "IncSearch", { link = "CurSearch" });
+  vim.api.nvim_set_hl(0, "CurSearch", { reverse = true })
+  vim.api.nvim_set_hl(0, "IncSearch", { link = "CurSearch" })
 
-  vim.api.nvim_set_hl(0, "Directory", { fg = colors.blue });
+  vim.api.nvim_set_hl(0, "Directory", { fg = colors.blue })
 
-  vim.api.nvim_set_hl(0, "DiffAdd", { fg = colors.green });
-  vim.api.nvim_set_hl(0, "DiffChange", { fg = colors.blue });
-  vim.api.nvim_set_hl(0, "DiffDelete", { fg = colors.red });
+  vim.api.nvim_set_hl(0, "DiffAdd", { fg = colors.green })
+  vim.api.nvim_set_hl(0, "DiffChange", { fg = colors.blue })
+  vim.api.nvim_set_hl(0, "DiffDelete", { fg = colors.red })
   set_hl_maybe_blur(colors, config, namespaces, "DiffText", { bg = 3 })
 
-  vim.api.nvim_set_hl(0, "ErrorMsg", { fg = colors.red });
-  vim.api.nvim_set_hl(0, "WarningMsg", { fg = colors.orange });
-  vim.api.nvim_set_hl(0, "ModeMsg", { fg = colors.blue });
-  vim.api.nvim_set_hl(0, "MoreMsg", { link = "ModeMsg" });
-  vim.api.nvim_set_hl(0, "Question", { fg = colors.blue });
-  vim.api.nvim_set_hl(0, "QuickFixLine", { fg = colors.blue });
-  vim.api.nvim_set_hl(0, "Title", { bold = true });
+  vim.api.nvim_set_hl(0, "ErrorMsg", { fg = colors.red })
+  vim.api.nvim_set_hl(0, "WarningMsg", { fg = colors.orange })
+  vim.api.nvim_set_hl(0, "ModeMsg", { fg = colors.blue })
+  vim.api.nvim_set_hl(0, "MoreMsg", { link = "ModeMsg" })
+  vim.api.nvim_set_hl(0, "Question", { fg = colors.blue })
+  vim.api.nvim_set_hl(0, "QuickFixLine", { fg = colors.blue })
+  vim.api.nvim_set_hl(0, "Title", { bold = true })
 
   vim.api.nvim_set_hl(0, "SpellBad", { undercurl = true, sp = colors.red })
   vim.api.nvim_set_hl(0, "SpellCap", { undercurl = true, sp = colors.blue })
@@ -148,9 +148,9 @@ local set_highlights_syntax = function(colors, config, namespaces)
   vim.api.nvim_set_hl(0, "Error", { fg = colors.red, bold = true })
   vim.api.nvim_set_hl(0, "Todo", { fg = colors.orange, bold = true })
 
-  vim.api.nvim_set_hl(0, "Added", { link = "DiffAdd" });
-  vim.api.nvim_set_hl(0, "Changed", { link = "DiffChange" });
-  vim.api.nvim_set_hl(0, "Removed", { link = "DiffDelete" });
+  vim.api.nvim_set_hl(0, "Added", { link = "DiffAdd" })
+  vim.api.nvim_set_hl(0, "Changed", { link = "DiffChange" })
+  vim.api.nvim_set_hl(0, "Removed", { link = "DiffDelete" })
 end
 
 --- Diagnostic highlighting groups (:h diagnostic-highlights)

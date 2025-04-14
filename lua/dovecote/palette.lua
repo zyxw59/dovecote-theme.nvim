@@ -27,7 +27,7 @@ local base = {
   blue = "#4080D9",     -- (0.6 0.15 257)
   purple = "#9E62C1",   -- (0.6 0.15 312)
   neutral = "#6E5b77",  -- (0.5 0.05 315)
-};
+}
 
 ---@type dovecote.palette
 M.dovecote_dark = vim.tbl_extend("force", base, {
