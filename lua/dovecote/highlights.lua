@@ -1,38 +1,100 @@
 local M = {}
 
+
+---@param colors dovecote.palette
+---@param is_fg boolean
+---@param is_focus boolean
+---@return string[]
+local get_color_set = function(colors, is_fg, is_focus)
+  if is_fg then
+    if is_focus then
+      return colors.fg_focus
+    else
+      return colors.fg_blur
+    end
+  else
+    if is_focus then
+      return colors.bg_focus
+    else
+      return colors.bg_blur
+    end
+  end
+end
+
+---@class dovecote.highlights.highlight_group
+---@field fg integer?
+---@field bg integer?
+---@field reverse boolean?
+---@field style vim.api.keyset.highlight?
+
+---@param colors dovecote.palette
+---@param group_val dovecote.highlights.highlight_group
+---@param is_focus boolean
+---@return vim.api.keyset.highlight
+local make_hl_group = function(colors, group_val, is_focus)
+  local style = group_val.style or {}
+  local reverse = group_val.reverse or false
+  if group_val.fg then
+    style.fg = get_color_set(colors, not reverse, is_focus)[group_val.fg]
+  end
+  if group_val.bg then
+    style.bg = get_color_set(colors, reverse, is_focus)[group_val.bg]
+  end
+  return style
+end
+
+---@param colors dovecote.palette
+---@param config dovecote.config
+---@param namespaces dovecote.autoblur.namespaces
+---@param group string
+---@param group_val dovecote.highlights.highlight_group
+local set_hl_maybe_blur = function(colors, config, namespaces, group, group_val)
+  if config.autoblur then
+    vim.api.nvim_set_hl(namespaces.focus, group, make_hl_group(colors, group_val, true))
+    vim.api.nvim_set_hl(namespaces.blur, group, make_hl_group(colors, group_val, false))
+  else
+    vim.api.nvim_set_hl(0, group, make_hl_group(colors, group_val, true))
+  end
+end
+
 --- Built-In highlighting groups (:h highlight-groups)
 ---@param colors dovecote.palette
 ---@param config dovecote.config
-local set_highlights_builtin = function(colors, config)
-  vim.api.nvim_set_hl(0, "Normal", { bg = colors.bg_focus[1], fg = colors.fg_focus[1] })
+---@param namespaces dovecote.autoblur.namespaces
+local set_highlights_builtin = function(colors, config, namespaces)
+  set_hl_maybe_blur(colors, config, namespaces, "Normal", { bg = 1, fg = 1})
   vim.api.nvim_set_hl(0, "NormalNC", { bg = colors.bg_blur[1], fg = colors.fg_blur[1] })
-  vim.api.nvim_set_hl(0, "NormalFloat", { link = "NormalNC" })
+  if config.autoblur then
+    vim.api.nvim_set_hl(0, "NormalFloat", { link = "Normal" })
+  else
+    vim.api.nvim_set_hl(0, "NormalFloat", { link = "NormalNC" })
+  end
 
-  vim.api.nvim_set_hl(0, "StatusLine", { bg = colors.bg_focus[2], fg = colors.fg_focus[2] })
+  set_hl_maybe_blur(colors, config, namespaces, "StatusLine", { bg = 2, fg = 2 })
   vim.api.nvim_set_hl(0, "StatusLineNC", { bg = colors.bg_blur[3], fg = colors.fg_blur[3] })
-  vim.api.nvim_set_hl(0, "WinBar", { bg = colors.bg_focus[2], fg = colors.fg_focus[2] })
+  set_hl_maybe_blur(colors, config, namespaces, "WinBar", { bg = 2, fg = 2 })
   vim.api.nvim_set_hl(0, "WinBarNC", { bg = colors.bg_blur[3], fg = colors.fg_blur[3] })
 
-  vim.api.nvim_set_hl(0, "Visual", { bg = colors.bg_focus[3] })
+  set_hl_maybe_blur(colors, config, namespaces, "Visual", { bg = 3 })
 
-  vim.api.nvim_set_hl(0, "ColorColumn", { bg = colors.bg_focus[2] })
-  vim.api.nvim_set_hl(0, "CursorLine", { bg = colors.bg_focus[2] })
+  set_hl_maybe_blur(colors, config, namespaces, "ColorColumn", { bg = 2 })
+  set_hl_maybe_blur(colors, config, namespaces, "CursorLine", { bg = 2 })
   vim.api.nvim_set_hl(0, "CursorColumn", { link = "ColorColumn" })
 
-  vim.api.nvim_set_hl(0, "LineNr", { bg = colors.bg_focus[2], fg = colors.fg_focus[2] })
-  vim.api.nvim_set_hl(0, "CursorLineNr", { bg = colors.bg_focus[3], fg = colors.fg_focus[3] })
+  set_hl_maybe_blur(colors, config, namespaces, "LineNr", { bg = 2, fg = 2 })
+  set_hl_maybe_blur(colors, config, namespaces, "CursorLineNr", { bg = 3, fg = 3 })
   vim.api.nvim_set_hl(0, "SignColumn", { link = "LineNr" })
 
   vim.api.nvim_set_hl(0, "CursorLineFold", { link = "CursorLineNr" })
-  vim.api.nvim_set_hl(0, "Folded", { bg = colors.bg_focus[3], fg = colors.fg_focus[1] })
+  set_hl_maybe_blur(colors, config, namespaces, "Folded", { bg = 3, fg = 1 })
 
-  vim.api.nvim_set_hl(0, "Pmenu", { bg = colors.bg_focus[3] })
-  vim.api.nvim_set_hl(0, "PmenuThumb", { bg = colors.fg_focus[3] })
+  set_hl_maybe_blur(colors, config, namespaces, "Pmenu", { bg = 3 })
+  set_hl_maybe_blur(colors, config, namespaces, "PmenuThumb", { bg = 3, reverse = true })
 
   vim.api.nvim_set_hl(0, "Conceal", { fg = colors.neutral })
   vim.api.nvim_set_hl(0, "NonText", { fg = colors.neutral })
 
-  vim.api.nvim_set_hl(0, "Search", { bg = colors.bg_focus[3] });
+  set_hl_maybe_blur(colors, config, namespaces, "Search", { bg = 3 })
   vim.api.nvim_set_hl(0, "CurSearch", { reverse = true });
   vim.api.nvim_set_hl(0, "IncSearch", { link = "CurSearch" });
 
@@ -41,7 +103,7 @@ local set_highlights_builtin = function(colors, config)
   vim.api.nvim_set_hl(0, "DiffAdd", { fg = colors.green });
   vim.api.nvim_set_hl(0, "DiffChange", { fg = colors.blue });
   vim.api.nvim_set_hl(0, "DiffDelete", { fg = colors.red });
-  vim.api.nvim_set_hl(0, "DiffText", { bg = colors.bg_focus[3] });
+  set_hl_maybe_blur(colors, config, namespaces, "DiffText", { bg = 3 })
 
   vim.api.nvim_set_hl(0, "ErrorMsg", { fg = colors.red });
   vim.api.nvim_set_hl(0, "WarningMsg", { fg = colors.orange });
@@ -60,7 +122,7 @@ local set_highlights_builtin = function(colors, config)
 end
 
 --- Syntax highlight groups (:h group-name)
-local set_highlights_syntax = function(colors, config)
+local set_highlights_syntax = function(colors, config, namespaces)
   vim.api.nvim_set_hl(0, "Comment", { fg = colors.neutral, italic = true })
 
   vim.api.nvim_set_hl(0, "Constant", { fg = colors.purple })
@@ -79,7 +141,7 @@ local set_highlights_syntax = function(colors, config)
   vim.api.nvim_set_hl(0, "Structure", { link = "Statement" })
 
   vim.api.nvim_set_hl(0, "Special", { fg = colors.blue })
-  vim.api.nvim_set_hl(0, "SpecialChar", { fg = colors.fg_focus[1] })
+  set_hl_maybe_blur(colors, config, namespaces, "MaybeBlur", { fg = 1 })
   vim.api.nvim_set_hl(0, "Delimiter", {})
   vim.api.nvim_set_hl(0, "SpecialComment", { link = "Statement" })
 
@@ -92,7 +154,7 @@ local set_highlights_syntax = function(colors, config)
 end
 
 --- Diagnostic highlighting groups (:h diagnostic-highlights)
-local set_highlights_diagnostic = function(colors, config)
+local set_highlights_diagnostic = function(colors, config, namespaces)
   vim.api.nvim_set_hl(0, "DiagnosticError", { fg = colors.red })
   vim.api.nvim_set_hl(0, "DiagnosticWarn", { fg = colors.orange })
   vim.api.nvim_set_hl(0, "DiagnosticInfo", { fg = colors.blue })
@@ -107,7 +169,7 @@ local set_highlights_diagnostic = function(colors, config)
 end
 
 --- Treesitter highlighting groups (:h treesitter-highlight-groups)
-local set_highlights_treesitter = function(colors, config)
+local set_highlights_treesitter = function(colors, config, namespaces)
   vim.api.nvim_set_hl(0, "@variable", { link = "Identifier" })
   vim.api.nvim_set_hl(0, "@variable.builtin", { link = "Special" })
   vim.api.nvim_set_hl(0, "@variable.parameter.builtin", { link = "@variable.builtin" })
@@ -154,7 +216,10 @@ local set_highlights_treesitter = function(colors, config)
   vim.api.nvim_set_hl(0, "@punctuation.special", { link = "Special" })
 
   vim.api.nvim_set_hl(0, "@comment", { link = "Comment" })
-  vim.api.nvim_set_hl(0, "@comment.documentation", { fg = colors.fg_focus[3], nocombine = true })
+  set_hl_maybe_blur(colors, config, namespaces, "@comment.documentation", {
+    fg = 3,
+    style = { nocombine = true },
+  })
 
   vim.api.nvim_set_hl(0, "@comment.error", { link = "DiagnosticError" })
   vim.api.nvim_set_hl(0, "@comment.warning", { link = "DiagnosticWarn" })
@@ -167,13 +232,13 @@ local set_highlights_treesitter = function(colors, config)
 end
 
 --- Treesitter context highlighting groups (:h treesitter-context-highlights)
-local set_highlights_treesitter_context = function(colors, config)
+local set_highlights_treesitter_context = function(colors, config, namespaces)
   vim.api.nvim_set_hl(0, "TreesitterContext", { link = "Folded" })
   vim.api.nvim_set_hl(0, "TreesitterContextLineNumber", { link = "CursorLineNr" })
 end
 
 --- LSP semantic highlighting groups (:h lsp-semantic-highlight)
-local set_highlights_lsp = function(colors, config)
+local set_highlights_lsp = function(colors, config, namespaces)
   vim.api.nvim_set_hl(0, "@lsp.type.interface", { link = "Special" })
   vim.api.nvim_set_hl(0, "@lsp.type.builtinType", { link = "@type.builtin" })
   vim.api.nvim_set_hl(0, "@lsp.type.macro", { link = "PreProc" })
@@ -183,13 +248,14 @@ end
 
 ---@param colors dovecote.palette
 ---@param config dovecote.config
-M.set_highlights = function(colors, config)
-  set_highlights_builtin(colors, config)
-  set_highlights_syntax(colors, config)
-  set_highlights_diagnostic(colors, config)
-  set_highlights_treesitter(colors, config)
-  set_highlights_treesitter_context(colors, config)
-  set_highlights_lsp(colors, config)
+---@param namespaces dovecote.autoblur.namespaces
+M.set_highlights = function(colors, config, namespaces)
+  set_highlights_builtin(colors, config, namespaces)
+  set_highlights_syntax(colors, config, namespaces)
+  set_highlights_diagnostic(colors, config, namespaces)
+  set_highlights_treesitter(colors, config, namespaces)
+  set_highlights_treesitter_context(colors, config, namespaces)
+  set_highlights_lsp(colors, config, namespaces)
 end
 
 return M

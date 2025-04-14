@@ -31,7 +31,8 @@ M.load = function()
     colors = palette.dovecote_light
   end
 
-  highlights.set_highlights(colors, M.config);
+  local namespaces = require("dovecote.autoblur").setup(M.config)
+  highlights.set_highlights(colors, M.config, namespaces);
 end
 
 return M;
