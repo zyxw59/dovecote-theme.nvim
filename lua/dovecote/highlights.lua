@@ -24,7 +24,7 @@ local set_highlights_builtin = function(colors, config)
   vim.api.nvim_set_hl(0, "SignColumn", { link = "LineNr" })
 
   vim.api.nvim_set_hl(0, "CursorLineFold", { link = "CursorLineNr" })
-  vim.api.nvim_set_hl(0, "Folded", { bg = colors.bg_blur[1], fg = colors.fg_focus[1] })
+  vim.api.nvim_set_hl(0, "Folded", { bg = colors.bg_focus[3], fg = colors.fg_focus[1] })
 
   vim.api.nvim_set_hl(0, "Pmenu", { bg = colors.bg_focus[3] })
   vim.api.nvim_set_hl(0, "PmenuThumb", { bg = colors.fg_focus[3] })
@@ -162,6 +162,14 @@ local set_highlights_treesitter = function(colors, config)
   vim.api.nvim_set_hl(0, "@comment.note", { link = "DiagnosticInfo" })
 
   vim.api.nvim_set_hl(0, "@markup.quote", { link = "String" })
+
+  vim.api.nvim_set_hl(0, "@character.special.vim", { link = "Special" })
+end
+
+--- Treesitter context highlighting groups (:h treesitter-context-highlights)
+local set_highlights_treesitter_context = function(colors, config)
+  vim.api.nvim_set_hl(0, "TreesitterContext", { link = "Folded" })
+  vim.api.nvim_set_hl(0, "TreesitterContextLineNumber", { link = "CursorLineNr" })
 end
 
 --- LSP semantic highlighting groups (:h lsp-semantic-highlight)
@@ -180,6 +188,7 @@ M.set_highlights = function(colors, config)
   set_highlights_syntax(colors, config)
   set_highlights_diagnostic(colors, config)
   set_highlights_treesitter(colors, config)
+  set_highlights_treesitter_context(colors, config)
   set_highlights_lsp(colors, config)
 end
 
