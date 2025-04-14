@@ -154,7 +154,7 @@ local set_highlights_treesitter = function(colors, config)
   vim.api.nvim_set_hl(0, "@punctuation.special", { link = "Special" })
 
   vim.api.nvim_set_hl(0, "@comment", { link = "Comment" })
-  vim.api.nvim_set_hl(0, "@comment.documentation", { fg = colors.fg_focus[3] })
+  vim.api.nvim_set_hl(0, "@comment.documentation", { fg = colors.fg_focus[3], nocombine = true })
 
   vim.api.nvim_set_hl(0, "@comment.error", { link = "DiagnosticError" })
   vim.api.nvim_set_hl(0, "@comment.warning", { link = "DiagnosticWarn" })
@@ -167,6 +167,7 @@ end
 --- LSP semantic highlighting groups (:h lsp-semantic-highlight)
 local set_highlights_lsp = function(colors, config)
   vim.api.nvim_set_hl(0, "@lsp.type.interface", { link = "Special" })
+  vim.api.nvim_set_hl(0, "@lsp.type.builtinType", { link = "@type.builtin" })
   vim.api.nvim_set_hl(0, "@lsp.type.macro", { link = "PreProc" })
 
   vim.api.nvim_set_hl(0, "@lsp.mod.documentation", { link = "@comment.documentation" })
