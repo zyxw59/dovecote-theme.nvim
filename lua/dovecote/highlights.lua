@@ -129,7 +129,7 @@ local set_highlights_syntax = function(colors, config, namespaces)
   vim.api.nvim_set_hl(0, "String", { fg = colors.purple })
 
   vim.api.nvim_set_hl(0, "Identifier", {})
-  vim.api.nvim_set_hl(0, "Function", {})
+  vim.api.nvim_set_hl(0, "Function", { fg = colors.orange })
 
   vim.api.nvim_set_hl(0, "Statement", { bold = true })
   vim.api.nvim_set_hl(0, "Operator", { link = "Statement" })

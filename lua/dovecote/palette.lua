@@ -23,10 +23,9 @@ local dark_focus = { "#1E0E25", "#37263F", "#52305A" }
 local light_focus = { "#F9D8BE", "#D7B79E", "#B69880" }
 local base = {
   red = "#CB564D",      -- (0.6 0.15 27)
-  orange = "#E18528",   -- (0.7 0.15 60)
   blue = "#4080D9",     -- (0.6 0.15 257)
   purple = "#9E62C1",   -- (0.6 0.15 312)
-  neutral = "#6E5b77",  -- (0.5 0.05 315)
+  neutral = "#6E5B77",  -- (0.5 0.05 315)
 }
 
 ---@type dovecote.palette
@@ -35,6 +34,7 @@ M.dovecote_dark = vim.tbl_extend("force", base, {
   fg_blur = light_blur,
   bg_focus = dark_focus,
   fg_focus = light_focus,
+  orange = "#E18528", -- (0.7 0.15 60)
   yellow = "#DDBC33", -- (0.8 0.15 95)
   green = "#7AAE74",  -- (0.7 0.10 142)
 })
@@ -44,6 +44,7 @@ M.dovecote_light = vim.tbl_extend("force", base, {
   fg_blur = dark_blur,
   bg_focus = light_focus,
   fg_focus = dark_focus,
+  orange = "#8C541F", -- (0.5 0.10 60)
   yellow = "#948031", -- (0.6 0.10 95)
   green = "#43963C",  -- (0.6 0.15 142)
 })
