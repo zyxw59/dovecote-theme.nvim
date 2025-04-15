@@ -52,9 +52,9 @@ local set_hl_maybe_blur = function(colors, config, namespaces, group, group_val)
   if config.autoblur then
     vim.api.nvim_set_hl(namespaces.focus, group, make_hl_group(colors, group_val, true))
     vim.api.nvim_set_hl(namespaces.blur, group, make_hl_group(colors, group_val, false))
-  else
-    vim.api.nvim_set_hl(0, group, make_hl_group(colors, group_val, true))
   end
+  -- regardless of autoblur, set the global namespace as fallback
+  vim.api.nvim_set_hl(0, group, make_hl_group(colors, group_val, true))
 end
 
 --- Built-In highlighting groups (:h highlight-groups)
